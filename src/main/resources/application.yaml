@@ -1,0 +1,58 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # ms-login maneja /api/usuarios (registro, login, validar, buscar por id)
+        - id: ms-login
+          uri: lb://ms-login
+          predicates:
+            - Path=/api/usuarios/**
+
+        # ms-usuarios maneja /api/perfil (ver y editar perfil, juegos favoritos)
+        - id: ms-usuarios
+          uri: lb://ms-usuarios
+          predicates:
+            - Path=/api/perfil/**
+
+        - id: ms-grupos
+          uri: lb://ms-grupos
+          predicates:
+            - Path=/api/grupos/**
+
+        - id: ms-tiendas
+          uri: lb://ms-tiendas
+          predicates:
+            - Path=/api/tiendas/**
+
+        - id: ms-inventario
+          uri: lb://ms-inventario
+          predicates:
+            - Path=/api/inventario/**
+
+        - id: ms-intercambios
+          uri: lb://ms-intercambios
+          predicates:
+            - Path=/api/intercambios/**
+
+        - id: ms-localizacion
+          uri: lb://ms-localizacion
+          predicates:
+            - Path=/api/localizacion/**
+
+        - id: ms-eventos
+          uri: lb://ms-eventos
+          predicates:
+            - Path=/api/eventos/**
